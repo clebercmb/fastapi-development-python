@@ -1,10 +1,19 @@
 from typing import Optional
 
-from fastapi import FastAPI, Response, status, HTTPException
+from fastapi import FastAPI, Response, status, HTTPException, Depends
 from pydantic import BaseModel
 from random import randrange
 
+from sqlalchemy.orm import Session
+
+from . import models
+from .database import engine, get_db
+
+models.Base.metadata.create_all(bind=engine)
+
 app = FastAPI()
+
+
 
 
 class Post(BaseModel):
@@ -35,6 +44,9 @@ def find_index_post(id) -> int:
 def root():
     return {"message": "Hello World"}
 
+@app.get("/sqlalchemy")
+def test_posts(db: Session = Depends(get_db)):
+    return {"status": "success"}
 
 @app.get("/posts")
 def get_posts():
@@ -70,6 +82,7 @@ def delete_post(id: int):
                             detail=f"post with id: {id} does not exist")
     my_posts.pop(index)
     return Response(status_code=status.HTTP_204_NO_CONTENT)
+
 
 @app.put("/posts/{id}")
 def update_post(id: int, post: Post):
