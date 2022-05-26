@@ -11,3 +11,5 @@ class Post(Base):
     content = Column(String, nullable=False)
     published = Column(Boolean, default=True)
     created_at = Column(TIMESTAMP(timezone=True))
+
+

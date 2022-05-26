@@ -27,6 +27,7 @@ my_posts = [{"title": "title of post 1", "content": "content of post 1", "id": 1
             {"title": "title of post 2", "content": "content of post 2", "id": 2}]
 
 
+
 def find_post_by_id(post_id):
     for post in my_posts:
         if post['id'] == post_id:
